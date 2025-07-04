@@ -50,7 +50,7 @@ export const TestResultManagement = ({ userRole, userPhone }: TestResultManageme
       phone: '0901 234 567',
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/07/2025',
-      accountCode: isCollaborator ? 'COL001' : 'GEN001',
+      accountCode: 'COL001', // Collaborator có quyền xem
       doctorPhone: '0906483751',
       diagnosis: 'Citrullinemia type I (argininosuccinate synthetase)',
       diseaseCode: 'D003',
@@ -145,7 +145,7 @@ export const TestResultManagement = ({ userRole, userPhone }: TestResultManageme
       phone: '0975 246 813',
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/07/2025',
-      accountCode: isCollaborator ? 'COL001' : 'GEN001',
+      accountCode: 'GEN001', // Collaborator KHÔNG có quyền xem
       doctorPhone: '0908 631 472',
       diagnosis: 'Bình thường',
       diseaseCode: null,
@@ -240,7 +240,7 @@ export const TestResultManagement = ({ userRole, userPhone }: TestResultManageme
       phone: '0917 826 453',
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/07/2025',
-      accountCode: isCollaborator ? 'COL001' : 'GEN001',
+      accountCode: 'COL001', // Collaborator có quyền xem
       doctorPhone: '0987 654 321',
       diagnosis: 'Argininemia (arginase deficiency)',
       diseaseCode: 'D002',
@@ -335,7 +335,7 @@ export const TestResultManagement = ({ userRole, userPhone }: TestResultManageme
       phone: '0963 251 748',
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/10/2025',
-      accountCode: isCollaborator ? 'COL001' : 'GEN001',
+      accountCode: 'COL001', // Collaborator có quyền xem
       doctorPhone: '0906483751',
       diagnosis: 'Glutaric acidemia type I (glutaryl-CoA dehydrogenase)',
       diseaseCode: 'D005',
@@ -430,7 +430,7 @@ export const TestResultManagement = ({ userRole, userPhone }: TestResultManageme
       phone: '0971 843 622',
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/10/2025',
-      accountCode: isCollaborator ? 'COL001' : 'GEN001',
+      accountCode: 'GEN001', // Collaborator KHÔNG có quyền xem
       doctorPhone: '0987 654 321',
       diagnosis: 'Isovaleric acidemia (isovaleryl-CoA dehydrogenase)',
       diseaseCode: 'D004',
@@ -525,7 +525,7 @@ export const TestResultManagement = ({ userRole, userPhone }: TestResultManageme
       phone: '0936 794 201',
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/10/2025',
-      accountCode: isCollaborator ? 'COL001' : 'GEN001',
+      accountCode: 'GEN001', // Collaborator KHÔNG có quyền xem
       doctorPhone: '0987 654 321',
       diagnosis: 'Bình thường',
       diseaseCode: null,
@@ -620,7 +620,7 @@ export const TestResultManagement = ({ userRole, userPhone }: TestResultManageme
       phone: '0916 234 705',
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/10/2025',
-      accountCode: isCollaborator ? 'COL001' : 'GEN001',
+      accountCode: 'GEN001', // Collaborator KHÔNG có quyền xem
       doctorPhone: '0906483751',
       diagnosis: 'Bình thường',
       diseaseCode: null,
@@ -851,6 +851,7 @@ export const TestResultManagement = ({ userRole, userPhone }: TestResultManageme
       test.testCode.toLowerCase().includes(searchTerm.toLowerCase());
     
     if (isCollaborator) {
+      // Collaborator chỉ thấy các xét nghiệm có accountCode = 'COL001'
       return matchesSearch && test.accountCode === 'COL001';
     }
     
