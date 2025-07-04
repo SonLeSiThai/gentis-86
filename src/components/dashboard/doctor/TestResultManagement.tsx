@@ -51,7 +51,7 @@ export const TestResultManagement = ({ userRole, userPhone }: TestResultManageme
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/07/2025',
       accountCode: 'COL001', // Collaborator có quyền xem
-      doctorPhone: '0906483751',
+      doctorPhone: '0906 483 751',
       diagnosis: 'Citrullinemia type I (argininosuccinate synthetase)',
       diseaseCode: 'D003',
       biomarkers: {
@@ -335,8 +335,8 @@ export const TestResultManagement = ({ userRole, userPhone }: TestResultManageme
       phone: '0963 251 748',
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/10/2025',
-      accountCode: 'COL001', // Collaborator có quyền xem
-      doctorPhone: '0906483751',
+      accountCode: 'GEN001', // Collaborator KHÔNG có quyền xem
+      doctorPhone: '0906 483 751',
       diagnosis: 'Glutaric acidemia type I (glutaryl-CoA dehydrogenase)',
       diseaseCode: 'D005',
       biomarkers: {
@@ -621,7 +621,7 @@ export const TestResultManagement = ({ userRole, userPhone }: TestResultManageme
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/10/2025',
       accountCode: 'GEN001', // Collaborator KHÔNG có quyền xem
-      doctorPhone: '0906483751',
+      doctorPhone: '0906 483 751',
       diagnosis: 'Bình thường',
       diseaseCode: null,
       biomarkers: {
