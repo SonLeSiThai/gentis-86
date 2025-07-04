@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -10,7 +11,7 @@ import { Download, FileText, User, Activity, Info } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { BIOMARKER_LIST, generateDefaultBiomarkers } from '@/data/biomarkers';
 
-// Dữ liệu chi tiết cho 5 bệnh
+// --- BƯỚC 1: MỞ RỘNG DỮ LIỆU TRONG diseaseInfo ---
 const diseaseInfo = {
   D001: {
     id: 1,
@@ -94,7 +95,15 @@ const diseaseInfo = {
   D002: {
     id: 2,
     code: 'D002',
-    name: 'ARGININEMIA',
+    name: 'Argininemia (arginase deficiency)',
+    abbreviation: 'ARG',
+    classification: 'Bệnh rối loạn chuyển hóa acid amin (Amino Acid Disorder)',
+    geneticMechanism: 'Argininemia là bệnh di truyền lặn trên nhiễm sắc thể thường. Trẻ mắc bệnh khi thừa hưởng 2 bản sao đột biến của gen ARG1, nằm trên nhiễm sắc thể 6q23.',
+    incidenceRate: '1:1.100.000',
+    confirmatoryDiagnosis: [
+      'Xét nghiệm DNA',
+      'Xét nghiệm định lượng acid amin máu'
+    ],
     description: 'Thiếu hụt enzym arginase 1 – ARG1 deficiency',
     synonyms: ['Arginase 1 deficiency', 'ARG1 deficiency', 'Hyperargininemia'],
     diagnosis: 'MS/MS: tăng arginine; acid amin huyết tương; ammonia máu tăng nhẹ',
@@ -148,7 +157,15 @@ const diseaseInfo = {
   D003: {
     id: 3,
     code: 'D003',
-    name: 'CITRULLINEMIA TYPE I',
+    name: 'Citrullinemia type I (argininosuccinate synthetase)',
+    abbreviation: 'CIT 1 / CTLN 1',
+    classification: 'Bệnh rối loạn chuyển hóa acid amin (Amino Acid Disorder)',
+    geneticMechanism: 'CTLN1 là bệnh di truyền lặn trên nhiễm sắc thể thường do đột biến gen ASS1, nằm trên nhiễm sắc thể 9q34.1.',
+    incidenceRate: '1:57.000',
+    confirmatoryDiagnosis: [
+      'Xét nghiệm gen: xác định đột biến trong gen ASS1',
+      'Đo hoạt độ enzyme'
+    ],
     description: 'Thiếu hụt enzym argininosuccinate synthetase – ASS1 deficiency',
     synonyms: [
       'ASS1 deficiency',
@@ -208,7 +225,15 @@ const diseaseInfo = {
   D004: {
     id: 4,
     code: 'D004',
-    name: 'ISOVALERIC ACIDEMIA',
+    name: 'Isovaleric acidemia (isovaleryl-CoA dehydrogenase)',
+    abbreviation: 'IVA',
+    classification: 'Bệnh lý axit hữu cơ',
+    geneticMechanism: 'Isovaleric acidemia là một rối loạn di truyền có tính chất lặn trên nhiễm sắc thể thường.',
+    incidenceRate: '1:250.000 - 1:526.000',
+    confirmatoryDiagnosis: [
+      'Xét nghiệm DNA',
+      'Đo hoạt độ enzyme'
+    ],
     description: 'Thiếu hụt enzym isovaleryl-CoA dehydrogenase (IVD)',
     synonyms: ['IVA', 'Isovaleric acid CoA dehydrogenase deficiency'],
     diagnosis: 'MS/MS: tăng C5-carnitine; acid hữu cơ trong nước tiểu',
@@ -216,13 +241,13 @@ const diseaseInfo = {
     summary: [
       'Isovaleric acidemia (IVA) là rối loạn chuyển hóa di truyền do đột biến gen IVD.',
       'Thiếu enzyme phân hủy leucine, chất độc tích tụ, gây các cơn cấp tính.',
-      'Triệu chứng: nôn, bỏ bú, lừ đừ, “mùi chân” trong mồ hôi; chậm phát triển mạn tính.'
+      'Triệu chứng: nôn, bỏ bú, lừ đừ, "mùi chân" trong mồ hôi; chậm phát triển mạn tính.'
     ],
     overview: {
       signsAndSymptoms: {
         general: [
           'Hai thể: cấp tính (sơ sinh) và mạn tính tái phát.',
-          'Đặc trưng bởi mùi “chân” do acid isovaleric tích tụ.'
+          'Đặc trưng bởi mùi "chân" do acid isovaleric tích tụ.'
         ]
       },
       causes: [
@@ -264,7 +289,15 @@ const diseaseInfo = {
   D005: {
     id: 5,
     code: 'D005',
-    name: 'GLUTARIC ACIDEMIA TYPE I',
+    name: 'Glutaric acidemia type I (glutaryl-CoA dehydrogenase)',
+    abbreviation: 'GA I',
+    classification: 'Bệnh lý axit hữu cơ',
+    geneticMechanism: 'GA I là bệnh di truyền lặn trên nhiễm sắc thể thường. Trẻ mắc bệnh khi nhận 2 bản sao đột biến gen GCDH từ cả cha và mẹ.',
+    incidenceRate: '1:100.000',
+    confirmatoryDiagnosis: [
+      'Xét nghiệm acid hữu cơ trong nước tiểu: Tăng acid glutaric và 3-hydroxyglutaric',
+      'Đo hoạt tính glutaryl-CoA dehydrogenase trong bạch cầu hoặc nguyên bào sợi da'
+    ],
     description: 'Thiếu hụt enzym glutaryl-CoA dehydrogenase',
     synonyms: ['GA-I', 'Glutaryl-CoA dehydrogenase deficiency'],
     diagnosis: 'MS/MS: tăng C5DC-carnitine; acid hữu cơ (glutaric, 3-hydroxyglutaric)',
@@ -341,7 +374,7 @@ export const TestResultDetails = ({ testResult, userRole }: TestResultDetailsPro
   const [showDiseaseDialog, setShowDiseaseDialog] = useState(false);
   const [diseaseViewType, setDiseaseViewType] = useState<'detail' | 'summary'>('detail');
   const { toast } = useToast();
-  const isCollaborator = userRole === 'collaborator';
+  const isCollaborator = userRole === 'collaborator'; 
   const doctorPhone = '0987 654 321';
 
   const getAdditionalPatientData = () => {
@@ -368,8 +401,8 @@ export const TestResultDetails = ({ testResult, userRole }: TestResultDetailsPro
     toast({ title: "Phân tích lại", description: `Đang phân tích lại xét nghiệm ${testResult.testCode}` });
   };
   
-  // --- HÀM TẢI PDF ĐÃ ĐƯỢC PHỤC HỒI ĐẦY ĐỦ ---
   const handleDownloadReport = async () => {
+    // Logic tải PDF vẫn giữ nguyên, không cần thay đổi
     const highBiomarkers = BIOMARKER_LIST.filter(biomarker => {
       const key = biomarker.code.toLowerCase();
       return fullBiomarkers[key]?.status === 'high';
@@ -524,23 +557,68 @@ export const TestResultDetails = ({ testResult, userRole }: TestResultDetailsPro
           </div>
         </CardContent>
       </Card>
+      
       <Card>
         <CardHeader><CardTitle className="flex items-center"><FileText className="h-5 w-5 mr-2" />Kết quả xét nghiệm và chẩn đoán</CardTitle></CardHeader>
         <CardContent className="space-y-4">
+
+          {/* --- BƯỚC 2: THAY ĐỔI GIAO DIỆN HIỂN THỊ CHẨN ĐOÁN --- */}
           <div className="bg-blue-50 p-4 rounded-lg">
             <div className="flex justify-between items-start">
-              <div>
-                <h3 className="font-medium text-blue-800 mb-1">Chẩn đoán:</h3>
-                <p className="text-blue-700 text-lg">{testResult.diagnosis}</p>
-              </div>
+              <h3 className="font-semibold text-blue-800 text-lg">Chẩn đoán:</h3>
               {disease && (
                 <div className="flex space-x-2">
                   <Button size="sm" variant="outline" onClick={() => { setDiseaseViewType('detail'); setShowDiseaseDialog(true); }}><FileText className="h-3 w-3 mr-1" />Chi tiết</Button>
-                  <Button size="sm" variant="outline" onClick={() => { setDiseaseViewType('summary'); setShowDiseaseDialog(true); }}><Info className="h-3 w-3 mr-1" />Tóm tắt</Button>
                 </div>
               )}
             </div>
+            
+            {/* Khối hiển thị chi tiết mới */}
+            {disease && disease.classification ? (
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5 text-sm">
+                
+                <div className="md:col-span-2">
+                  <h4 className="font-semibold text-slate-600">Tên bệnh</h4>
+                  <p className="text-slate-900">{disease.name}</p>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-slate-600">Tên viết tắt</h4>
+                  <p className="text-slate-900">{disease.abbreviation}</p>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-slate-600">Tỷ lệ mắc bệnh</h4>
+                  <p className="text-slate-900">{disease.incidenceRate}</p>
+                </div>
+
+                <div className="md:col-span-2">
+                  <h4 className="font-semibold text-slate-600">Phân loại bệnh/nhóm</h4>
+                  <p className="text-slate-900">{disease.classification}</p>
+                </div>
+                
+                <div className="md:col-span-2">
+                  <h4 className="font-semibold text-slate-600">Cơ chế di truyền</h4>
+                  <p className="text-slate-900">{disease.geneticMechanism}</p>
+                </div>
+
+                <div className="md:col-span-2">
+                  <h4 className="font-semibold text-slate-600">Phương pháp chẩn đoán xác định</h4>
+                  <div className="text-slate-900">
+                    {disease.confirmatoryDiagnosis.map((method: string, index: number) => (
+                      <p key={index}>- {method}</p>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+            ) : (
+              // Hiển thị như cũ nếu không có dữ liệu chi tiết
+              <p className="text-blue-700 text-lg mt-1">{testResult.diagnosis}</p>
+            )}
           </div>
+          {/* Kết thúc khối hiển thị mới */}
+
           <div>
             <h4 className="font-medium mb-3">Chi tiết 77 chỉ số sinh học:</h4>
             <div className="max-h-96 overflow-y-auto border rounded-lg">
