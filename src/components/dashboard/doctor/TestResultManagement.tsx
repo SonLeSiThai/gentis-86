@@ -30,9 +30,10 @@ import { BIOMARKER_LIST, generateDefaultBiomarkers } from '@/data/biomarkers';
 
 interface TestResultManagementProps {
   userRole: string;
+  userPhone?: string;
 }
 
-export const TestResultManagement = ({ userRole }: TestResultManagementProps) => {
+export const TestResultManagement = ({ userRole, userPhone }: TestResultManagementProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTest, setSelectedTest] = useState<any>(null);
   const isCollaborator = userRole === 'collaborator';
@@ -50,6 +51,7 @@ export const TestResultManagement = ({ userRole }: TestResultManagementProps) =>
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/07/2025',
       accountCode: isCollaborator ? 'COL001' : 'GEN001',
+      doctorPhone: '0906483751',
       diagnosis: 'Citrullinemia type I (argininosuccinate synthetase)',
       diseaseCode: 'D003',
       biomarkers: {
@@ -144,6 +146,7 @@ export const TestResultManagement = ({ userRole }: TestResultManagementProps) =>
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/07/2025',
       accountCode: isCollaborator ? 'COL001' : 'GEN001',
+      doctorPhone: '0908 631 472',
       diagnosis: 'Bình thường',
       diseaseCode: null,
       biomarkers: {
@@ -238,6 +241,7 @@ export const TestResultManagement = ({ userRole }: TestResultManagementProps) =>
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/07/2025',
       accountCode: isCollaborator ? 'COL001' : 'GEN001',
+      doctorPhone: '0987 654 321',
       diagnosis: 'Argininemia (arginase deficiency)',
       diseaseCode: 'D002',
       biomarkers: {
@@ -294,7 +298,7 @@ export const TestResultManagement = ({ userRole }: TestResultManagementProps) =>
         d_ado: { value: 0.02, normal: '0 - 0.05', status: 'normal' },
         c20_0_lpc: { value: 0.33, normal: '0.05 - 1.77', status: 'normal' },
         c22_0_lpc: { value: 0.2, normal: '0.03 - 1.5', status: 'normal' },
-        c24_0_lpc: { value: 0.37, normal: '0.08 - 2.78', normal: 'normal' },
+        c24_0_lpc: { value: 0.37, normal: '0.08 - 2.78', status: 'normal' },
         c26_0_lpc: { value: 0.2, normal: '0.03 - 0.75', status: 'normal' },
         lv_pt_ratio: { value: 2.44, normal: '0.66 - 2.72', status: 'normal' },
         cit_arg_ratio: { value: 13.4, normal: '0.3 - 19.9', status: 'normal' },
@@ -332,6 +336,7 @@ export const TestResultManagement = ({ userRole }: TestResultManagementProps) =>
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/10/2025',
       accountCode: isCollaborator ? 'COL001' : 'GEN001',
+      doctorPhone: '0906483751',
       diagnosis: 'Glutaric acidemia type I (glutaryl-CoA dehydrogenase)',
       diseaseCode: 'D005',
       biomarkers: {
@@ -426,6 +431,7 @@ export const TestResultManagement = ({ userRole }: TestResultManagementProps) =>
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/10/2025',
       accountCode: isCollaborator ? 'COL001' : 'GEN001',
+      doctorPhone: '0987 654 321',
       diagnosis: 'Isovaleric acidemia (isovaleryl-CoA dehydrogenase)',
       diseaseCode: 'D004',
       biomarkers: {
@@ -520,6 +526,7 @@ export const TestResultManagement = ({ userRole }: TestResultManagementProps) =>
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/10/2025',
       accountCode: isCollaborator ? 'COL001' : 'GEN001',
+      doctorPhone: '0987 654 321',
       diagnosis: 'Bình thường',
       diseaseCode: null,
       biomarkers: {
@@ -614,6 +621,7 @@ export const TestResultManagement = ({ userRole }: TestResultManagementProps) =>
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/10/2025',
       accountCode: isCollaborator ? 'COL001' : 'GEN001',
+      doctorPhone: '0906483751',
       diagnosis: 'Bình thường',
       diseaseCode: null,
       biomarkers: {
@@ -698,7 +706,6 @@ export const TestResultManagement = ({ userRole }: TestResultManagementProps) =>
       doctorConclusion: ''
     }
   ]);
-  const doctorPhone = '0987 654 321'; // Số điện thoại mặc định
 
   const handleReAnalyze = (testResult: any) => {
     toast({
@@ -709,157 +716,170 @@ export const TestResultManagement = ({ userRole }: TestResultManagementProps) =>
   };
 
   // --- BẮT ĐẦU: HÀM LẤY DỮ LIỆU BỆNH NHI BỔ SUNG ---
-  // Hàm này giả lập việc lấy dữ liệu chi tiết hơn cho bệnh nhi
   const getAdditionalPatientData = (testCode: string) => {
     if (testCode === 'y12345678') {
       return { gender: 'Nữ', gestationalAge: 39, birthWeight: 3800, twinStatus: 'Sinh đơn', ivfStatus: 'Có', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testCode, sampleCollectionDate: '03/05/2025', sampleReceiptDate: '03/05/2025' };
     } else if (testCode === 'y12345679') {
       return { gender: 'Nữ', gestationalAge: 39, birthWeight: 3700, twinStatus: 'Sinh đơn', ivfStatus: 'Có', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testCode, sampleCollectionDate: '03/06/2025', sampleReceiptDate: '03/06/2025', doctorPhone: '0908 631 472' };
     }
-    // Dữ liệu mặc định cho các xét nghiệm khác
     return { gender: 'Nam', gestationalAge: 38, birthWeight: 3500, twinStatus: 'Sinh đơn', ivfStatus: 'Không', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testCode, sampleCollectionDate: 'N/A', sampleReceiptDate: 'N/A' };
   };
   // --- KẾT THÚC: HÀM LẤY DỮ LIỆU BỆNH NHI BỔ SUNG ---
 
-  // Dán đoạn code này vào file TestResultManagement.tsx để thay thế hàm handleDownloadReport cũ
+  const handleDownloadReport = async (testResult: any) => {
+    // --- Bắt đầu quá trình chuẩn bị dữ liệu cho PdfGenerator ---
 
-const handleDownloadReport = async (testResult: any) => {
-  // --- Bắt đầu quá trình chuẩn bị dữ liệu cho PdfGenerator ---
+    // 1. Lấy dữ liệu bệnh nhi bổ sung
+    const additionalPatientData = getAdditionalPatientData(testResult.testCode);
 
-  // 1. Lấy dữ liệu bệnh nhi bổ sung
-  const additionalPatientData = getAdditionalPatientData(testResult.testCode);
+    // 2. Tạo danh sách đầy đủ 77 chỉ số
+    const fullBiomarkers = generateDefaultBiomarkers();
+    Object.keys(testResult.biomarkers).forEach(key => {
+      if (fullBiomarkers[key]) {
+        fullBiomarkers[key] = testResult.biomarkers[key];
+      }
+    });
 
-  // 2. Tạo danh sách đầy đủ 77 chỉ số
-  const fullBiomarkers = generateDefaultBiomarkers();
-  Object.keys(testResult.biomarkers).forEach(key => {
-    if (fullBiomarkers[key]) {
-      fullBiomarkers[key] = testResult.biomarkers[key];
+    // 3. Chuẩn bị mảng biomarkers để truyền vào hàm formatBiomarkers
+    const biomarkersForPdf = BIOMARKER_LIST.map(biomarker => {
+      const key = biomarker.code.toLowerCase();
+      const marker = fullBiomarkers[key];
+      return {
+        name: biomarker.name,
+        value: marker.value || 0,
+        unit: '',
+        normalRange: marker.normal || 'N/A',
+        status: marker.status === 'high' ? 'Tăng' : marker.status === 'low' ? 'Giảm' : 'Trong ngưỡng',
+      };
+    });
+
+    // 4. Lọc ra các chỉ số Tăng/Giảm để hiển thị riêng
+    const highBiomarkers = BIOMARKER_LIST.filter(b => fullBiomarkers[b.code.toLowerCase()]?.status === 'high');
+    const lowBiomarkers = BIOMARKER_LIST.filter(b => fullBiomarkers[b.code.toLowerCase()]?.status === 'low');
+    
+    // --- Kết thúc quá trình chuẩn bị dữ liệu ---
+
+    try {
+      // Khởi tạo lớp PdfGenerator
+      const pdfGen = new PdfGenerator();
+      
+      // Bắt đầu xây dựng nội dung HTML cho file PDF
+      pdfGen.addTitle('BÁO CÁO XÉT NGHIỆM CHI TIẾT');
+      
+      // Mục A: Thông tin xét nghiệm
+      pdfGen.addSectionHeader('A. THÔNG TIN XÉT NGHIỆM');
+      pdfGen.addLabelValue('Mã số mẫu', testResult.testCode);
+      pdfGen.addLabelValue('Họ tên', testResult.patientName);
+      pdfGen.addLabelValue('Ngày sinh', testResult.birthDate);
+      pdfGen.addLabelValue('Giới tính', additionalPatientData.gender);
+      pdfGen.addLabelValue('Số tuổi thai lúc sinh', `${additionalPatientData.gestationalAge} tuần`);
+      pdfGen.addLabelValue('Cân nặng lúc sinh', `${additionalPatientData.birthWeight}g`);
+      pdfGen.addLabelValue('Sinh đôi/sinh đơn', additionalPatientData.twinStatus);
+      pdfGen.addLabelValue('Thai IVF', additionalPatientData.ivfStatus);
+      pdfGen.addLabelValue('Địa chỉ', additionalPatientData.address);
+      pdfGen.addLabelValue('Tình trạng dùng kháng sinh', additionalPatientData.antibioticUse);
+      pdfGen.addLabelValue('Dùng sữa mẹ', additionalPatientData.breastfeeding);
+      pdfGen.addLabelValue('Ngày lấy mẫu', additionalPatientData.sampleCollectionDate);
+      pdfGen.addLabelValue('Ngày nhận mẫu', additionalPatientData.sampleReceiptDate);
+      pdfGen.addLabelValue('Ngày xét nghiệm', testResult.testDate);
+      pdfGen.addLabelValue('Ngày phân tích', testResult.analysisDate);
+      pdfGen.addLabelValue('Số điện thoại', testResult.phone);
+      pdfGen.addLabelValue('Số điện thoại bác sĩ', testResult.doctorPhone || '0987 654 321');
+      pdfGen.addLabelValue('Kết quả', testResult.result === 'positive' ? 'Dương tính' : 'Âm tính');
+      pdfGen.addSpace();
+      
+      // Mục B: Bảng chi tiết 77 chỉ số
+      pdfGen.formatBiomarkers(biomarkersForPdf);
+      
+      // Mục C: Kết quả phân tích tóm tắt
+      pdfGen.addSectionHeader('C. KẾT QUẢ PHÂN TÍCH');
+      pdfGen.addText('DANH SÁCH CÁC CHỈ SỐ TĂNG:');
+      if (highBiomarkers.length > 0) {
+        highBiomarkers.forEach(biomarker => {
+          const key = biomarker.code.toLowerCase();
+          const marker = fullBiomarkers[key];
+          pdfGen.addText(`- ${biomarker.name}: ${marker.value} (BT: ${marker.normal})`);
+        });
+      } else {
+        pdfGen.addText('Không có chỉ số nào tăng cao');
+      }
+      pdfGen.addSpace();
+    
+      pdfGen.addText('DANH SÁCH CÁC CHỈ SỐ GIẢM:');
+      if (lowBiomarkers.length > 0) {
+        lowBiomarkers.forEach(biomarker => {
+          const key = biomarker.code.toLowerCase();
+          const marker = fullBiomarkers[key];
+          pdfGen.addText(`- ${biomarker.name}: ${marker.value} (BT: ${marker.normal})`);
+        });
+      } else {
+        pdfGen.addText('Không có chỉ số nào giảm thấp');
+      }
+      pdfGen.addSpace();
+    
+      // Mục D: Kết quả chẩn đoán
+      pdfGen.addSectionHeader('D. KẾT QUẢ CHẨN ĐOÁN');
+      pdfGen.addLabelValue('Kết quả xét nghiệm', testResult.result === 'positive' ? 'Dương tính' : 'Âm tính');
+      pdfGen.addLabelValue('Chẩn đoán', testResult.diagnosis);
+      if (testResult.diseaseCode) {
+        pdfGen.addLabelValue('Mã bệnh', testResult.diseaseCode);
+      }
+      pdfGen.addSpace();
+    
+      // Mục E: Kết luận bác sĩ
+      pdfGen.addSectionHeader('E. KẾT LUẬN CỦA BÁC SĨ');
+      pdfGen.addText(testResult.doctorConclusion || 'Chưa có kết luận từ bác sĩ');
+      
+      // Gọi hàm downloadPdf để bắt đầu quá trình tạo ảnh và tải về
+      await pdfGen.downloadPdf(`BaoCao_ChiTiet_${testResult.testCode}.pdf`);
+    
+      toast({ title: "Tải xuống thành công", description: `Báo cáo chi tiết ${testResult.testCode} đã được tải xuống PDF` });
+      
+    } catch (error) {
+      console.error('Lỗi khi tạo PDF:', error);
+      toast({ title: "Lỗi tạo PDF", description: "Không thể tạo file PDF. Vui lòng thử lại.", variant: "destructive" });
     }
-  });
-
-  // 3. Chuẩn bị mảng biomarkers để truyền vào hàm formatBiomarkers
-  const biomarkersForPdf = BIOMARKER_LIST.map(biomarker => {
-    const key = biomarker.code.toLowerCase();
-    const marker = fullBiomarkers[key];
-    return {
-      name: biomarker.name,
-      value: marker.value || '--',
-      unit: '', // Bạn có thể thêm đơn vị ở đây nếu cần
-      normalRange: marker.normal || 'N/A',
-      status: marker.status === 'high' ? 'Tăng' : marker.status === 'low' ? 'Giảm' : 'Trong ngưỡng',
-    };
-  });
-
-  // 4. Lọc ra các chỉ số Tăng/Giảm để hiển thị riêng
-  const highBiomarkers = BIOMARKER_LIST.filter(b => fullBiomarkers[b.code.toLowerCase()]?.status === 'high');
-  const lowBiomarkers = BIOMARKER_LIST.filter(b => fullBiomarkers[b.code.toLowerCase()]?.status === 'low');
-  
-  // --- Kết thúc quá trình chuẩn bị dữ liệu ---
-
-  try {
-    // Khởi tạo lớp PdfGenerator
-    const pdfGen = new PdfGenerator();
-    
-    // Bắt đầu xây dựng nội dung HTML cho file PDF
-    pdfGen.addTitle('BÁO CÁO XÉT NGHIỆM CHI TIẾT');
-    
-    // Mục A: Thông tin xét nghiệm
-    pdfGen.addSectionHeader('A. THÔNG TIN XÉT NGHIỆM');
-    pdfGen.addLabelValue('Mã số mẫu', testResult.testCode);
-    pdfGen.addLabelValue('Họ tên', testResult.patientName);
-    pdfGen.addLabelValue('Ngày sinh', testResult.birthDate);
-    pdfGen.addLabelValue('Giới tính', additionalPatientData.gender);
-    pdfGen.addLabelValue('Số tuổi thai lúc sinh', `${additionalPatientData.gestationalAge} tuần`);
-    pdfGen.addLabelValue('Cân nặng lúc sinh', `${additionalPatientData.birthWeight}g`);
-    pdfGen.addLabelValue('Sinh đôi/sinh đơn', additionalPatientData.twinStatus);
-    pdfGen.addLabelValue('Thai IVF', additionalPatientData.ivfStatus);
-    pdfGen.addLabelValue('Địa chỉ', additionalPatientData.address);
-    pdfGen.addLabelValue('Tình trạng dùng kháng sinh', additionalPatientData.antibioticUse);
-    pdfGen.addLabelValue('Dùng sữa mẹ', additionalPatientData.breastfeeding);
-    pdfGen.addLabelValue('Ngày lấy mẫu', additionalPatientData.sampleCollectionDate);
-    pdfGen.addLabelValue('Ngày nhận mẫu', additionalPatientData.sampleReceiptDate);
-    pdfGen.addLabelValue('Ngày xét nghiệm', testResult.testDate);
-    pdfGen.addLabelValue('Ngày phân tích', testResult.analysisDate);
-    pdfGen.addLabelValue('Số điện thoại', testResult.phone);
-    pdfGen.addLabelValue('Số điện thoại bác sĩ', additionalPatientData.doctorPhone || doctorPhone);
-    pdfGen.addLabelValue('Kết quả', testResult.result === 'positive' ? 'Dương tính' : 'Âm tính');
-    pdfGen.addSpace();
-    
-    // Mục B: Bảng chi tiết 77 chỉ số
-    // Truyền dữ liệu đã được định dạng vào hàm formatBiomarkers
-    pdfGen.formatBiomarkers(biomarkersForPdf);
-    
-    // Mục C: Kết quả phân tích tóm tắt
-    pdfGen.addSectionHeader('C. KẾT QUẢ PHÂN TÍCH');
-    pdfGen.addText('DANH SÁCH CÁC CHỈ SỐ TĂNG:');
-    if (highBiomarkers.length > 0) {
-      highBiomarkers.forEach(biomarker => {
-        const key = biomarker.code.toLowerCase();
-        const marker = fullBiomarkers[key];
-        pdfGen.addText(`- ${biomarker.name}: ${marker.value} (BT: ${marker.normal})`);
-      });
-    } else {
-      pdfGen.addText('Không có chỉ số nào tăng cao');
-    }
-    pdfGen.addSpace();
-  
-    pdfGen.addText('DANH SÁCH CÁC CHỈ SỐ GIẢM:');
-    if (lowBiomarkers.length > 0) {
-      lowBiomarkers.forEach(biomarker => {
-        const key = biomarker.code.toLowerCase();
-        const marker = fullBiomarkers[key];
-        pdfGen.addText(`- ${biomarker.name}: ${marker.value} (BT: ${marker.normal})`);
-      });
-    } else {
-      pdfGen.addText('Không có chỉ số nào giảm thấp');
-    }
-    pdfGen.addSpace();
-  
-    // Mục D: Kết quả chẩn đoán
-    pdfGen.addSectionHeader('D. KẾT QUẢ CHẨN ĐOÁN');
-    pdfGen.addLabelValue('Kết quả xét nghiệm', testResult.result === 'positive' ? 'Dương tính' : 'Âm tính');
-    pdfGen.addLabelValue('Chẩn đoán', testResult.diagnosis);
-    if (testResult.diseaseCode) {
-      pdfGen.addLabelValue('Mã bệnh', testResult.diseaseCode);
-    }
-    pdfGen.addSpace();
-  
-    // Mục E: Kết luận bác sĩ
-    pdfGen.addSectionHeader('E. KẾT LUẬN CỦA BÁC SĨ');
-    pdfGen.addText(testResult.doctorConclusion || 'Chưa có kết luận từ bác sĩ');
-    
-    // Gọi hàm downloadPdf để bắt đầu quá trình tạo ảnh và tải về
-    await pdfGen.downloadPdf(`BaoCao_ChiTiet_${testResult.testCode}.pdf`);
-  
-    toast({ title: "Tải xuống thành công", description: `Báo cáo chi tiết ${testResult.testCode} đã được tải xuống PDF` });
-    
-  } catch (error) {
-    console.error('Lỗi khi tạo PDF:', error);
-    toast({ title: "Lỗi tạo PDF", description: "Không thể tạo file PDF. Vui lòng thử lại.", variant: "destructive" });
-  }
-};
+  };
 
   const handleViewTestDetails = (testResult: any) => {
     setSelectedTest(testResult);
   };
 
+  // Filter tests based on user role and assignment
   const filteredTestResults = testResults.filter(test => {
     const matchesSearch = test.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       test.testCode.toLowerCase().includes(searchTerm.toLowerCase());
+    
     if (isCollaborator) {
       return matchesSearch && test.accountCode === 'COL001';
     }
+    
+    // For doctors, only show tests assigned to them based on their phone number
+    if (userRole === 'doctor' && userPhone) {
+      return matchesSearch && test.doctorPhone === userPhone;
+    }
+    
     return matchesSearch;
   });
+
+  const getAssignmentMessage = () => {
+    if (isCollaborator) {
+      return `Hiển thị xét nghiệm được phân công cho tài khoản: COL001`;
+    }
+    if (userRole === 'doctor' && userPhone) {
+      return `Hiển thị xét nghiệm được phân công cho bác sĩ: ${userPhone}`;
+    }
+    return '';
+  };
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-slate-800">Quản lý xét nghiệm</h2>
-          {isCollaborator && (
+          {getAssignmentMessage() && (
             <p className="text-sm text-slate-600 mt-1">
-              Hiển thị xét nghiệm được phân công cho tài khoản: COL001
+              {getAssignmentMessage()}
             </p>
           )}
         </div>
@@ -883,11 +903,9 @@ const handleDownloadReport = async (testResult: any) => {
         <CardHeader>
           <CardTitle>
             Danh sách xét nghiệm
-            {isCollaborator && (
-              <Badge variant="outline" className="ml-2">
-                {filteredTestResults.length} xét nghiệm được phân công
-              </Badge>
-            )}
+            <Badge variant="outline" className="ml-2">
+              {filteredTestResults.length} xét nghiệm được phân công
+            </Badge>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -946,7 +964,7 @@ const handleDownloadReport = async (testResult: any) => {
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => handleDownloadReport(test)} // <-- SỬ DỤNG HÀM MỚI TẠI ĐÂY
+                        onClick={() => handleDownloadReport(test)}
                       >
                         <Download className="h-3 w-3 mr-1" />
                         Tải

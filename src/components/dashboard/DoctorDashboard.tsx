@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -78,7 +79,7 @@ const DoctorSidebar = ({ activeTab, setActiveTab, userRole }: {
         <SidebarGroup>
           <SidebarGroupLabel className="text-lg font-semibold mb-4">
             <Activity className="h-5 w-5 mr-2" />
-                            Gentis
+            Gentis AI-NBS
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -108,7 +109,7 @@ export const DoctorDashboard = ({ user, onLogout }: DoctorDashboardProps) => {
   const renderContent = () => {
     switch (activeTab) {
       case 'tests-result':
-        return <TestResultManagement userRole={user.role} />;
+        return <TestResultManagement userRole={user.role} userPhone={user.phone} />;
       case 'tests':
         // Use enhanced test management for Gentis role, regular test management for collaborators
         return user.role === 'doctor' ? (
@@ -129,7 +130,7 @@ export const DoctorDashboard = ({ user, onLogout }: DoctorDashboardProps) => {
       case 'profile':
         return <ProfileManagement user={user} />;
       default:
-        return <TestResultManagement userRole={user.role} />;
+        return <TestResultManagement userRole={user.role} userPhone={user.phone} />;
     }
   };
 

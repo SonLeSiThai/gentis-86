@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -88,7 +87,7 @@ const diseaseInfo = {
       references: [
         'National Organization for Rare Disorders. 3-Hydroxy-3-Methylglutaric Aciduria',
         'Grünert SC, et al. Orphanet J Rare Dis. 2010;5:25.',
-        'Gibson KM, et al. Mol Genet Metab. 2000;70(1):58–65.'
+        'Gibson KM, et al. Mol Gen Metab. 2000;70(1):58–65.'
       ]
     }
   },
@@ -379,11 +378,15 @@ export const TestResultDetails = ({ testResult, userRole }: TestResultDetailsPro
 
   const getAdditionalPatientData = () => {
     if (testResult.testCode === 'y12345678') {
-      return { gender: 'Nữ', gestationalAge: 39, birthWeight: 3800, twinStatus: 'Sinh đơn', ivfStatus: 'Có', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testResult.testCode, sampleCollectionDate: '03/05/2025', sampleReceiptDate: '03/05/2025' };
+      return { gender: 'Nữ', gestationalAge: 39, birthWeight: 3800, twinStatus: 'Sinh đơn', ivfStatus: 'Có', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testResult.testCode, sampleCollectionDate: '03/05/2025', sampleReceiptDate: '03/05/2025', doctorPhone: '0906483751' };
     } else if (testResult.testCode === 'y12345679') {
       return { gender: 'Nữ', gestationalAge: 39, birthWeight: 3700, twinStatus: 'Sinh đơn', ivfStatus: 'Có', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testResult.testCode, sampleCollectionDate: '03/06/2025', sampleReceiptDate: '03/06/2025', doctorPhone: '0908 631 472' };
+    } else if (testResult.testCode === 'y12345681') {
+      return { gender: 'Nam', gestationalAge: 38, birthWeight: 3400, twinStatus: 'Sinh đơn', ivfStatus: 'Không', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testResult.testCode, sampleCollectionDate: '03/09/2025', sampleReceiptDate: '03/09/2025', doctorPhone: '0906483751' };
+    } else if (testResult.testCode === 'y12345684') {
+      return { gender: 'Nữ', gestationalAge: 39, birthWeight: 3600, twinStatus: 'Sinh đơn', ivfStatus: 'Có', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testResult.testCode, sampleCollectionDate: '03/12/2025', sampleReceiptDate: '03/12/2025', doctorPhone: '0906483751' };
     }
-    return { gender: 'Nữ', gestationalAge: 39, birthWeight: 3800, twinStatus: 'Sinh đơn', ivfStatus: 'Có', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testResult.testCode, sampleCollectionDate: '03/05/2025', sampleReceiptDate: '03/05/2025' };
+    return { gender: 'Nữ', gestationalAge: 39, birthWeight: 3800, twinStatus: 'Sinh đơn', ivfStatus: 'Có', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testResult.testCode, sampleCollectionDate: '03/05/2025', sampleReceiptDate: '03/05/2025', doctorPhone: doctorPhone };
   };
 
   const additionalPatientData = getAdditionalPatientData();
@@ -402,7 +405,6 @@ export const TestResultDetails = ({ testResult, userRole }: TestResultDetailsPro
   };
   
   const handleDownloadReport = async () => {
-    // Logic tải PDF vẫn giữ nguyên, không cần thay đổi
     const highBiomarkers = BIOMARKER_LIST.filter(biomarker => {
       const key = biomarker.code.toLowerCase();
       return fullBiomarkers[key]?.status === 'high';
@@ -434,7 +436,7 @@ export const TestResultDetails = ({ testResult, userRole }: TestResultDetailsPro
       pdfGen.addLabelValue('Ngày xét nghiệm', testResult.testDate);
       pdfGen.addLabelValue('Ngày phân tích', testResult.analysisDate);
       pdfGen.addLabelValue('Số điện thoại', testResult.phone);
-      pdfGen.addLabelValue('Số điện thoại bác sĩ', additionalPatientData.doctorPhone || doctorPhone);
+      pdfGen.addLabelValue('Số điện thoại bác sĩ', additionalPatientData.doctorPhone);
       pdfGen.addLabelValue('Kết quả', testResult.result === 'positive' ? 'Dương tính' : 'Âm tính');
       pdfGen.addSpace();
       
@@ -444,7 +446,7 @@ export const TestResultDetails = ({ testResult, userRole }: TestResultDetailsPro
         const marker = fullBiomarkers[key];
         return {
           name: biomarker.name,
-          value: marker.value,
+          value: marker.value || 0,
           unit: '',
           normalRange: marker.normal,
           status: marker.status === 'high' ? 'Tăng' : marker.status === 'low' ? 'Giảm' : 'Trong ngưỡng'
@@ -522,7 +524,7 @@ export const TestResultDetails = ({ testResult, userRole }: TestResultDetailsPro
                   <div><span className="font-medium text-slate-700">Thai IVF:</span><span className="ml-2">{additionalPatientData.ivfStatus}</span></div>
                   <div><span className="font-medium text-slate-700">Địa chỉ:</span><span className="ml-2">{additionalPatientData.address}</span></div>
                   <div><span className="font-medium text-slate-700">Số điện thoại bố/mẹ:</span><span className="ml-2">{testResult.phone}</span></div>
-                  <div><span className="font-medium text-slate-700">Số điện thoại bác sĩ chỉ định:</span><span className="ml-2">{additionalPatientData.doctorPhone || doctorPhone}</span></div>
+                  <div><span className="font-medium text-slate-700">Số điện thoại bác sĩ chỉ định:</span><span className="ml-2">{additionalPatientData.doctorPhone}</span></div>
                 </div>
               </div>
             </div>
