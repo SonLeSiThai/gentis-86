@@ -378,13 +378,13 @@ export const TestResultDetails = ({ testResult, userRole }: TestResultDetailsPro
 
   const getAdditionalPatientData = () => {
     if (testResult.testCode === 'y12345678') {
-      return { gender: 'Nữ', gestationalAge: 39, birthWeight: 3800, twinStatus: 'Sinh đơn', ivfStatus: 'Có', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testResult.testCode, sampleCollectionDate: '03/05/2025', sampleReceiptDate: '03/05/2025', doctorPhone: '0906483751' };
+      return { gender: 'Nữ', gestationalAge: 39, birthWeight: 3800, twinStatus: 'Sinh đơn', ivfStatus: 'Có', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testResult.testCode, sampleCollectionDate: '03/05/2025', sampleReceiptDate: '03/05/2025', doctorPhone: '0906 483 751' };
     } else if (testResult.testCode === 'y12345679') {
       return { gender: 'Nữ', gestationalAge: 39, birthWeight: 3700, twinStatus: 'Sinh đơn', ivfStatus: 'Có', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testResult.testCode, sampleCollectionDate: '03/06/2025', sampleReceiptDate: '03/06/2025', doctorPhone: '0908 631 472' };
     } else if (testResult.testCode === 'y12345681') {
-      return { gender: 'Nam', gestationalAge: 38, birthWeight: 3400, twinStatus: 'Sinh đơn', ivfStatus: 'Không', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testResult.testCode, sampleCollectionDate: '03/09/2025', sampleReceiptDate: '03/09/2025', doctorPhone: '0906483751' };
+      return { gender: 'Nam', gestationalAge: 38, birthWeight: 3400, twinStatus: 'Sinh đơn', ivfStatus: 'Không', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testResult.testCode, sampleCollectionDate: '03/09/2025', sampleReceiptDate: '03/09/2025', doctorPhone: '0906 483 751' };
     } else if (testResult.testCode === 'y12345684') {
-      return { gender: 'Nữ', gestationalAge: 39, birthWeight: 3600, twinStatus: 'Sinh đơn', ivfStatus: 'Có', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testResult.testCode, sampleCollectionDate: '03/12/2025', sampleReceiptDate: '03/12/2025', doctorPhone: '0906483751' };
+      return { gender: 'Nữ', gestationalAge: 39, birthWeight: 3600, twinStatus: 'Sinh đơn', ivfStatus: 'Có', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testResult.testCode, sampleCollectionDate: '03/12/2025', sampleReceiptDate: '03/12/2025', doctorPhone: '0906 483 751' };
     }
     return { gender: 'Nữ', gestationalAge: 39, birthWeight: 3800, twinStatus: 'Sinh đơn', ivfStatus: 'Có', address: 'Hà Nội', antibioticUse: 'Không', breastfeeding: 'Có', sampleCode: testResult.testCode, sampleCollectionDate: '03/05/2025', sampleReceiptDate: '03/05/2025', doctorPhone: doctorPhone };
   };

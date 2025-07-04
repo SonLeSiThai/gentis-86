@@ -620,7 +620,7 @@ export const TestResultManagement = ({ userRole, userPhone }: TestResultManageme
       phone: '0916 234 705',
       branch: 'Chi nhánh Hà Nội',
       analysisDate: '03/10/2025',
-      accountCode: 'GEN001', // Collaborator KHÔNG có quyền xem
+      accountCode: 'COL001', // Collaborator KHÔNG có quyền xem
       doctorPhone: '0906 483 751',
       diagnosis: 'Bình thường',
       diseaseCode: null,
