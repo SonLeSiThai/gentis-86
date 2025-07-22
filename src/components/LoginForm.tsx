@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,35 +8,79 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { User, Lock, Stethoscope, Shield, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { login } from '@/api/auth.api';
 
 interface LoginFormProps {
   onLogin: (userData: any) => void;
 }
 
 export const LoginForm = ({ onLogin }: LoginFormProps) => {
-  const [phone, setPhone] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [resetPhone, setResetPhone] = useState('');
   const { toast } = useToast();
 
-  const handleLogin = async (role: 'admin' | 'doctor' | 'collaborator') => {
-    setLoading(true);
-    // Simulate login process
-    setTimeout(() => {
-      onLogin({
-        role,
-        name: role === 'admin' ? 'Admin Gentis' : 'Bác sĩ Nguyễn Văn A',
-        phone: phone
-      });
-      setLoading(false);
+  // const handleLogin = async (role: 'admin' | 'doctor' | 'collaborator') => {
+  //   setLoading(true);
+  //   // Simulate login process
+  //   setTimeout(() => {
+  //     onLogin({
+  //       role,
+  //       name: role === 'admin' ? 'Admin Gentis' : 'Bác sĩ Nguyễn Văn A',
+  //       phone: phone
+  //     });
+  //     setLoading(false);
+  //     toast({
+  //       title: "Đăng nhập thành công",
+  //       description: "Chào mừng bạn đến với Gentis",
+  //     });
+  //   }, 1000);
+  // };
+
+  const handleLogin = async () => {
+    if (!username || !password) {
       toast({
-        title: "Đăng nhập thành công",
-        description: "Chào mừng bạn đến với Gentis",
+        title: 'Thiếu thông tin',
+        description: 'Vui lòng nhập đầy đủ số điện thoại và mật khẩu',
+        variant: 'destructive',
       });
-    }, 1000);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      console.log('Gửi request login với:', { username, password });
+
+      const response = await login({ username, password });
+      console.log('Phản hồi từ server:', response);
+
+      const { accessToken, user } = response.data;
+
+      console.log('Đăng nhập thành công, accessToken:', accessToken);
+      
+
+      localStorage.setItem('accessToken', accessToken);
+      onLogin({ ...user });
+
+      toast({
+        title: 'Đăng nhập thành công',
+        //description: `Chào mừng ${user.name}`,
+      });
+    } catch (err: any) {
+      console.error('Lỗi khi đăng nhập:', err);
+      toast({
+        title: 'Đăng nhập thất bại',
+        description:
+          err?.response?.data?.message?.join?.(', ') || err?.message || 'Vui lòng thử lại',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   const handleForgotPassword = () => {
     if (!resetPhone) {
@@ -108,8 +153,8 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
               id="phone"
               type="tel"
               placeholder="Nhập số điện thoại"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="mt-1"
             />
           </div>
@@ -126,7 +171,7 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
           </div>
         </div>
 
-        <Tabs defaultValue="doctor" className="w-full">
+        {/* <Tabs defaultValue="doctor" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="admin" className="text-sm">
               <Shield className="h-4 w-4 mr-1" />
@@ -140,9 +185,9 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
               <User className="h-4 w-4 mr-1" />
               Bác sĩ
             </TabsTrigger>
-          </TabsList>
+          </TabsList> */}
           
-          <TabsContent value="admin" className="mt-4">
+          {/* <TabsContent value="admin" className="mt-4">
             <Button 
               className="w-full bg-red-600 hover:bg-red-700" 
               onClick={() => handleLogin('admin')}
@@ -171,7 +216,17 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
               Đăng nhập Bác Sĩ
             </Button>
           </TabsContent>
-        </Tabs>
+        </Tabs> */}
+
+        {
+            <Button 
+              className="w-full bg-blue-600 hover:bg-blue-700" 
+              onClick={() => handleLogin()}
+              disabled={loading}
+            >
+              Đăng nhập  
+            </Button>
+        }
 
         <div className="mt-4 text-center">
           <Button 
