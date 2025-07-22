@@ -5,8 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { User, Lock, Stethoscope, Shield, ArrowLeft } from 'lucide-react';
+import { User, Lock, Stethoscope, Shield, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { login } from '@/api/auth.api';
 
@@ -17,6 +16,7 @@ interface LoginFormProps {
 export const LoginForm = ({ onLogin }: LoginFormProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [resetPhone, setResetPhone] = useState('');
@@ -39,6 +39,30 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
   //   }, 1000);
   // };
 
+  const smartTelexConvert = (text: string): string => {
+    let result = text;
+
+    //chuyen dấu
+    const conversions = [
+      { from: /â/g, to: 'aa' }, { from: /ê/g, to: 'ee' }, { from: /ô/g, to: 'oo' },
+      { from: /Â/g, to: 'AA' }, { from: /Ê/g, to: 'EE' }, { from: /Ô/g, to: 'OO' },
+      { from: /ă/g, to: 'aw' }, { from: /ơ/g, to: 'ow' }, { from: /ư/g, to: 'uw' },
+      { from: /Ă/g, to: 'AW' }, { from: /Ơ/g, to: 'OW' }, { from: /Ư/g, to: 'UW' },
+      { from: /đ/g, to: 'dd' }, { from: /Đ/g, to: 'DD' },
+      { from: /[àèìòùỳ]/g, to: (match) => match.normalize('NFD').replace(/[\u0300]/g, '') + 'f' },
+      { from: /[áéíóúý]/g, to: (match) => match.normalize('NFD').replace(/[\u0301]/g, '') + 's' },
+      { from: /[ạẹịọụỵ]/g, to: (match) => match.normalize('NFD').replace(/[\u0323]/g, '') + 'j' },
+      { from: /[ảẻỉỏủỷ]/g, to: (match) => match.normalize('NFD').replace(/[\u0309]/g, '') + 'r' },
+      { from: /[ãẽĩõũỹ]/g, to: (match) => match.normalize('NFD').replace(/[\u0303]/g, '') + 'x' },
+    ];
+
+    conversions.forEach(rule => {
+      result = result.replace(rule.from, rule.to as string);
+    });
+
+    return result;
+  };
+
   const handleLogin = async () => {
     if (!username || !password) {
       toast({
@@ -48,22 +72,21 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
       });
       return;
     }
-
     setLoading(true);
     try {
       console.log('Gửi request login với:', { username, password });
-
+  
       const response = await login({ username, password });
       console.log('Phản hồi từ server:', response);
-
+  
       const { accessToken, user } = response.data;
-
+  
       console.log('Đăng nhập thành công, accessToken:', accessToken);
-      
-
+  
+  
       localStorage.setItem('accessToken', accessToken);
       onLogin({ ...user });
-
+  
       toast({
         title: 'Đăng nhập thành công',
         //description: `Chào mừng ${user.name}`,
@@ -80,7 +103,6 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
       setLoading(false);
     }
   };
-
 
   const handleForgotPassword = () => {
     if (!resetPhone) {
@@ -158,18 +180,41 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
               className="mt-1"
             />
           </div>
+          {/* password, eye icon */}
           <div>
             <Label htmlFor="password">Mật khẩu</Label>
+            <div className="relative mt-1">
             <Input
               id="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Nhập mật khẩu"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              //tieng viet khong dau
+              onChange={(e) => {
+                const telexValue = smartTelexConvert(e.target.value);
+                setPassword(telexValue);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleLogin();
+                }
+              }}
               className="mt-1"
             />
+            <button
+              type="button"
+              className="absolute inset-y-0 right-0 flex items-center pr-3"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <EyeOff className="h-4 w-4 text-gray-400 hover:text-gray-600" />
+              ) : (
+                <Eye className="h-4 w-4 text-gray-400 hover:text-gray-600" />
+              )}
+            </button>
           </div>
         </div>
+      </div>
 
         {/* <Tabs defaultValue="doctor" className="w-full">
           <TabsList className="grid w-full grid-cols-3">
@@ -219,12 +264,12 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
         </Tabs> */}
 
         {
-            <Button 
-              className="w-full bg-blue-600 hover:bg-blue-700" 
+            <Button
+              className="w-full bg-blue-600 hover:bg-blue-700"
               onClick={() => handleLogin()}
               disabled={loading}
             >
-              Đăng nhập  
+              Đăng nhập
             </Button>
         }
 
